@@ -29,6 +29,12 @@ app.use(express.json());
 app.use("/api/users", usersRouter);
 app.use("/api/posts", postsRouter);
 
+// Serves frontend app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/build/index.html"));
+});
+
+// Starts server and connects to database
 db.once("open", () => {
   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
 });
