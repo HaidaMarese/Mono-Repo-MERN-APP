@@ -35,7 +35,7 @@ app.get("*", (req, res) => {
 });
 
 // Errors
-app.use("*", (_, res, _) => {
+app.use("*", (_, res, __) => {
   res.status(404).json({ message: "Not found" });
 });
 
