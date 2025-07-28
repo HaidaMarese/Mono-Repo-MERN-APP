@@ -14,29 +14,33 @@ dotenv.config();
 // Constants
 const app = express();
 const PORT = process.env.PORT || 3000;
-const _fileName = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(_fileName);
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+console.log(__dirname);
+
 
 // Middleware
 app.use(morgan("dev"));
 app.use(cors());
 app.use(helmet());
-app.use(express.static(path.join(__dirname, "frontend/build")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "frontend/dist")));
 
-// Routes
+// API Routes
 app.use("/api/users", usersRouter);
 app.use("/api/posts", postsRouter);
 
-// Serves frontend app
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend/build/index.html"));
+// Handle React routing, return all requests to React app
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
 });
 
-// Errors
-app.use("*", (_, res, __) => {
-  res.status(404).json({ message: "Not found" });
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something broke!" });
 });
 
 // Starts server and connects to database
