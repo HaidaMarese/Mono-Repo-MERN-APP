@@ -2,5 +2,5 @@ import axios from 'axios';
 
 
 export const backendClient = axios.create({
-    baseURL: `${import.meta.env.VITE_BACKEND_URL}/api`,
+    baseURL: `http://localhost${import.meta.env.PORT}/api`,
 });
