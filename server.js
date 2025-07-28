@@ -34,6 +34,11 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "frontend/build/index.html"));
 });
 
+// Errors
+app.use("*", (_, res, _) => {
+  res.status(404).json({ message: "Not found" });
+});
+
 // Starts server and connects to database
 db.once("open", () => {
   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
