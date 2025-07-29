@@ -18,7 +18,6 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 console.log(__dirname);
 
-
 // Middleware
 app.use(morgan("dev"));
 app.use(cors());
@@ -33,7 +32,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/posts", postsRouter);
 
 // Handle React routing, return all requests to React app
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
 });
 
